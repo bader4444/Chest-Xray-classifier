@@ -193,7 +193,7 @@ with col1:
     if uploaded_file is not None:
         image_pil = Image.open(uploaded_file).convert("RGB")
         st.image(image_pil, caption="Input X-Ray", use_container_width=True)
-        analyze_btn = st.button("🔬 Analyze Image", use_container_width=True)
+        analyze_btn = st.button("Analyze Image", use_container_width=True)
     else:
         st.info("Please upload an image to start analysis.")
         analyze_btn = False
@@ -208,7 +208,7 @@ with col2:
     st.subheader("2. Diagnostic Results")
     
     if analyze_btn and uploaded_file:
-        with st.spinner("🔬 Analyzing..."):
+        with st.spinner("Analyzing..."):
             try:
                 # Preprocessing
                 img_resized = image_pil.resize((224, 224))
