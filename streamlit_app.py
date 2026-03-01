@@ -79,7 +79,7 @@ def download_and_load_model():
         with st.spinner("🔄 Downloading AI model... (first time only, ~31MB)"):
             try:
                 urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
-                st.success("✅ Model downloaded successfully!")
+                st.success(" ")
             except Exception as e:
                 st.error(f"Error downloading model: {e}")
                 st.info("Please check your internet connection and try again.")
