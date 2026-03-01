@@ -5,7 +5,7 @@ from tensorflow.keras.preprocessing import image
 import numpy as np
 import cv2
 from PIL import Image
-import gdown
+import urllib.request
 import os
 
 # ══════════════════════════════════════════════════════════════════
@@ -65,25 +65,30 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════
-# DOWNLOAD & LOAD MODEL FROM GOOGLE DRIVE
+# DOWNLOAD & LOAD MODEL FROM HUGGING FACE
 # ══════════════════════════════════════════════════════════════════
 
-MODEL_URL = "https://drive.google.com/uc?export=download&id=13CTLYdVj0fmyTgDndSHfudKFW4SkwFfz"
+# Use direct download URL from Hugging Face
+MODEL_URL = "https://huggingface.co/BADER4444/chest-xray-model/resolve/main/best_model.h5"
 MODEL_PATH = "best_model.h5"
 
 @st.cache_resource
 def download_and_load_model():
-    """Download model from Google Drive and load it"""
+    """Download model from Hugging Face and load it"""
     if not os.path.exists(MODEL_PATH):
         with st.spinner("🔄 Downloading AI model... (first time only, ~31MB)"):
             try:
-                gdown.download(MODEL_URL, MODEL_PATH, quiet=False)
+                urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
+                st.success("✅ Model downloaded successfully!")
             except Exception as e:
                 st.error(f"Error downloading model: {e}")
+                st.info("Please check your internet connection and try again.")
                 return None
     
     try:
-        return load_model(MODEL_PATH)
+        model = load_model(MODEL_PATH)
+        st.success("✅ Model loaded successfully!")
+        return model
     except Exception as e:
         st.error(f"Error loading model: {e}")
         return None
@@ -224,6 +229,8 @@ with col2:
                 st.session_state['confidence'] = confidence
                 st.session_state['heatmap'] = heatmap
                 st.session_state['original_img'] = np.array(img_resized)
+                
+                st.success("✅ Analysis complete!")
             
             except Exception as e:
                 st.error(f"Error during analysis: {e}")
