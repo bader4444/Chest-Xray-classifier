@@ -87,7 +87,7 @@ def download_and_load_model():
     
     try:
         model = load_model(MODEL_PATH)
-        st.success("✅ Model loaded successfully!")
+        st.success("")
         return model
     except Exception as e:
         st.error(f"Error loading model: {e}")
