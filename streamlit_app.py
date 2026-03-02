@@ -77,10 +77,18 @@ def download_and_load_model():
     """Download model from Hugging Face and load it"""
     if not os.path.exists(MODEL_PATH):
         with st.spinner("🔄 Downloading AI model... (first time only, ~31MB)"):
+            try:
+                urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
+                st.success(" ")
             except Exception as e:
                 st.error(f"Error downloading model: {e}")
                 st.info("Please check your internet connection and try again.")
                 return None
+    
+    try:
+        model = load_model(MODEL_PATH)
+        st.success("✅ Model loaded successfully!")
+        return model
     except Exception as e:
         st.error(f"Error loading model: {e}")
         return None
