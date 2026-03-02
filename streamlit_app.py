@@ -12,9 +12,12 @@ import os
 # CONFIGURATION
 # ══════════════════════════════════════════════════════════════════
 
+# URL for symbolic lung image (using icons8 as example)
+PAGE_ICON_URL = "https://img.icons8.com/color/96/000000/lungs.png"
+
 st.set_page_config(
     page_title="MediScan AI | Chest X-Ray Diagnosis",
-    page_icon="🏥",
+    page_icon=PAGE_ICON_URL,
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -62,35 +65,25 @@ st.markdown("""
         border-right: 1px solid #333;
     }
     
-    /* Logo styling */
-    .logo-container {
+    /* Custom styling for sidebar title with image */
+    .sidebar-title-container {
         display: flex;
         align-items: center;
         gap: 10px;
-        margin-bottom: 20px;
         padding: 10px 0;
     }
     
-    .logo-icon {
-        background: linear-gradient(135deg, #00c6ff, #0072ff);
-        width: 45px;
-        height: 45px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 28px;
-        box-shadow: 0 4px 10px rgba(0, 198, 255, 0.3);
+    .sidebar-title-container img {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
     }
     
-    .logo-text {
+    .sidebar-title-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #00c6ff;
         margin: 0;
-        color: white;
-        font-size: 24px;
-        font-weight: 600;
-        background: linear-gradient(135deg, #fff, #e0e0e0);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -99,7 +92,6 @@ st.markdown("""
 # DOWNLOAD & LOAD MODEL FROM HUGGING FACE
 # ══════════════════════════════════════════════════════════════════
 
-# Use direct download URL from Hugging Face
 MODEL_URL = "https://huggingface.co/BADER4444/chest-xray-model/resolve/main/best_model.h5"
 MODEL_PATH = "best_model.h5"
 
@@ -110,7 +102,7 @@ def download_and_load_model():
         with st.spinner("🔄 Downloading AI model... (first time only, ~31MB)"):
             try:
                 urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
-                st.success("✅ Model downloaded successfully!")
+                st.success(" ")
             except Exception as e:
                 st.error(f"Error downloading model: {e}")
                 st.info("Please check your internet connection and try again.")
@@ -193,12 +185,12 @@ def create_gradcam_overlay(img, heatmap, alpha):
 
 # Sidebar
 with st.sidebar:
-    # Logo and title with symbolic image
+    # Custom HTML for title with symbolic image
     st.markdown("""
-    <div class="logo-container">
-        <div class="logo-icon">🏥</div>
-        <div class="logo-text">MediScan AI</div>
-    </div>
+        <div class="sidebar-title-container">
+            <img src="https://img.icons8.com/color/96/000000/lungs.png" alt="Lungs Icon">
+            <h1 class="sidebar-title-text">MediScan AI</h1>
+        </div>
     """, unsafe_allow_html=True)
     
     st.markdown("---")
@@ -218,7 +210,7 @@ with st.sidebar:
     st.warning("⚠️ **Disclaimer:** Educational tool only. Always consult medical professionals.")
 
 # Main title
-st.title("🏥 AI-Powered Chest X-Ray Classification with Grad-CAM")
+st.title("☣️ AI-Powered Chest X-Ray Classification with Grad-CAM ☣️")
 st.markdown("Upload a chest X-ray to generate an AI diagnostic report with visual explanation.")
 
 # Layout: Input | Output
